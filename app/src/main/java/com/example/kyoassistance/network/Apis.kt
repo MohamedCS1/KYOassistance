@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-const val apiKey = "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"
+const val apiKey = "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"
 interface Apis {
     @Headers(
         "Content-Type:application/json",
