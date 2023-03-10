@@ -14,7 +14,6 @@
         android:layout_height="@dimen/_32sdp"
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/background_radius"
-        android:backgroundTint="@color/mainGrayColor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +90,7 @@
             android:gravity="start|center"
             android:hint="Type something"
             android:textColor="@color/white"
-            android:textColorHint="#7EFFFFFF"
+            android:textColorHint="#9EFFFFFF"
             android:maxHeight="@dimen/_100sdp"
             android:paddingStart="@dimen/_37sdp"
             android:layout_marginEnd="@dimen/_37sdp"
@@ -105,7 +104,10 @@
             android:id="@+id/bu_send_message"
             android:layout_width="@dimen/_38sdp"
             android:layout_height="@dimen/_38sdp"
-            android:padding="@dimen/_8sdp"
+            android:paddingStart="@dimen/_7sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:foregroundGravity="center"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_send"/>
         <ImageView
