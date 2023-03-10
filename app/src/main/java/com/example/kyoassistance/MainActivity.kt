@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kyoassistance.adapters.ContentAdapter
 import com.example.kyoassistance.database.Entity.ContentEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
 import com.example.kyoassistance.viewModel.MainViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -85,6 +87,13 @@ class MainActivity : AppCompatActivity() {
         }
         contentAdapter.delChatLayoutClick = object : ContentAdapter.DelChatLayoutClick {
             override fun onLongClick(view : View, position: Int) {
+
+                val bottomSheetDialog = BottomSheetDialog(this@MainActivity ,
+                    R.style.TransparentBackgroundDialog
+                )
+                bottomSheetDialog.setContentView(R.layout.bottom_dialog)
+                bottomSheetDialog.show()
+
                 Timber.tag("currentItem").e("${contentDataList[position].id}")
 
                 val builder = AlertDialog.Builder(this@MainActivity)
