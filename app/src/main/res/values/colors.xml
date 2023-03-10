@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#1C1C23</color>
     <color name="mainGrayColor">#4E4E61</color>
-    <color name="mainVioletColor">#7979AD</color>
-    <color name="mainGreenColor">#8CAD82</color>
+    <color name="mainVioletColor">#AD7BFF</color>
+    <color name="mainGreenColor">#00FAD9</color>
 </resources>

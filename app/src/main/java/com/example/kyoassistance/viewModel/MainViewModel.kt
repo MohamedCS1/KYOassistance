@@ -1,6 +1,18 @@
 package com.example.kyoassistance.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.kyoassistance.database.Entity.ContentEntity
+import com.example.kyoassistance.pojo.GptText
+import com.example.kyoassistance.repository.DatabaseRepository
+import com.example.kyoassistance.repository.NetWorkRepository
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainViewModel:ViewModel() {
 
@@ -20,8 +32,7 @@ class MainViewModel:ViewModel() {
         get() = _gptInsertCheck
 
     fun postResponse(query : String) = viewModelScope.launch {
-        val jsonObject: JsonObject? = JsonObject().apply{
-            // params
+        val jsonObject: JsonObject = JsonObject().apply{
             addProperty("model", "text-davinci-003")
             addProperty("prompt", query)
             addProperty("temperature", 0)
@@ -30,14 +41,13 @@ class MainViewModel:ViewModel() {
             addProperty("frequency_penalty", 0.0)
             addProperty("presence_penalty", 0.0)
         }
-        val response = netWorkRepository.postResponse(jsonObject!!)
-        Timber.tag("응답결과").e("${response.choices.get(0)}")
-        // json -> object 는 fromJson
-        // object -> json 은 toJson
+        val response = netWorkRepository.postResponse(jsonObject)
+        Timber.tag("response").e("${response.choices.get(0)}")
+
         val gson = Gson()
         val tempjson = gson.toJson(response.choices.get(0))
         val tempgson = gson.fromJson(tempjson, GptText::class.java)
-        Timber.tag("가공결과").e("${tempgson.text}")
+        Timber.tag("responseJson").e("${tempgson.text}")
         insertContent(tempgson.text.toString(), 1)
     }
 
