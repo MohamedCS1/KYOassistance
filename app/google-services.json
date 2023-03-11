@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "286990057611",
+    "project_id": "kyoassistance",
+    "storage_bucket": "kyoassistance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286990057611:android:cddd8d0853d5f09316548e",
+        "android_client_info": {
+          "package_name": "com.example.kyoassistance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286990057611-jnndq2io6jekgtftu9slqpefe05ucidu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kyoassistance",
+            "certificate_hash": "4828ad3ddfb6193b9fb371bf74fe4fd65884f145"
+          }
+        },
+        {
+          "client_id": "286990057611-tso8hhg2v4r36ld2h0esqs6shqs7ppsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASuWXz348d4R27hxgbZ-K2-aLVfv7virs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286990057611-tso8hhg2v4r36ld2h0esqs6shqs7ppsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

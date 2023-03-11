@@ -1,4 +1,4 @@
-package com.example.kyoassistance
+package com.example.kyoassistance.ui.chat
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -7,12 +7,16 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.View.OnLongClickListener
+import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kyoassistance.R
 import com.example.kyoassistance.adapters.ContentAdapter
 import com.example.kyoassistance.database.Entity.ContentEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
@@ -42,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         viewModel.getContentData()
 
@@ -131,6 +136,9 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetDialog.setContentView(R.layout.bottom_dialog)
                 bottomSheetDialog.show()
 
+                val buttonSend = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSend)
+                val buttonSaveAsNote = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSaveAsNote)
+
                 Timber.tag("currentItem").e("${contentDataList[position].id}")
 
                 val builder = AlertDialog.Builder(this@MainActivity)
@@ -154,8 +162,6 @@ class MainActivity : AppCompatActivity() {
                 val result = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS
                 )
-
-
                 binding.edittextSendMessage.setText("")
                 binding.edittextSendMessage.setText(
                     Objects.requireNonNull(result)?.get(0) ?:""
