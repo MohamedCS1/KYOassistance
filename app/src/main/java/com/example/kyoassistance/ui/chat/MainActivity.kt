@@ -9,7 +9,6 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kyoassistance.R
 import com.example.kyoassistance.adapters.ContentAdapter
 import com.example.kyoassistance.database.Entity.ContentEntity
+import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
 import com.example.kyoassistance.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity() {
             setContentListRV(branch)
         })
 
-        viewModel.deleteCheck.observe(this, Observer {
+        viewModel.deleteMessageCheck.observe(this, Observer {
             if (it == true) {
                 viewModel.getContentData()
                 branch = 1
             }
         })
 
-        viewModel.gptInsertCheck.observe(this, Observer {
+        viewModel.gptInsertMessageCheck.observe(this, Observer {
             if (it == true) {
                 viewModel.getContentData()
                 binding.loading.visibility = View.INVISIBLE
@@ -138,20 +138,31 @@ class MainActivity : AppCompatActivity() {
 
                 val buttonSend = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSend)
                 val buttonSaveAsNote = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSaveAsNote)
+                val buttonDelete = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonDelete)
+
+                buttonDelete?.setOnClickListener {
+                    val builder = AlertDialog.Builder(this@MainActivity)
+                    builder.setTitle("Delete")
+                        .setMessage("Do you really want to delete this message ?")
+                        .setPositiveButton("Yes",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                viewModel.deleteSelectedContent(contentDataList[position].id)
+                                bottomSheetDialog.hide()
+                            })
+                        .setNegativeButton("No",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                bottomSheetDialog.hide()
+                            })
+                    builder.show()
+                }
 
                 Timber.tag("currentItem").e("${contentDataList[position].id}")
 
-                val builder = AlertDialog.Builder(this@MainActivity)
-                builder.setTitle("Delete")
-                    .setMessage("Delete this message ?")
-                    .setPositiveButton("Yes",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            viewModel.deleteSelectedContent(contentDataList[position].id)
-                        })
-                    .setNegativeButton("No",
-                        DialogInterface.OnClickListener { dialog, id ->
-                        })
-                builder.show()
+                buttonSaveAsNote?.setOnClickListener {
+                    viewModel.insertNote(NoteEntity(0 ,contentDataList[position].content))
+                    bottomSheetDialog.hide()
+                    Toast.makeText(this@MainActivity ,"Saved" ,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

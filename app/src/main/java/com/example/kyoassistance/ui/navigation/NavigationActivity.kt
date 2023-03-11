@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.example.kyoassistance.R
 import com.example.kyoassistance.databinding.ActivityNavigationBinding
 import com.example.kyoassistance.ui.chat.MainActivity
+import com.example.kyoassistance.ui.notes.NotesActivity
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -17,6 +18,10 @@ class NavigationActivity : AppCompatActivity() {
 
         binding.buttonToChat.setOnClickListener {
             startActivity(Intent(this ,MainActivity::class.java))
+        }
+
+        binding.buttonToNotes.setOnClickListener {
+            startActivity(Intent(this ,NotesActivity::class.java))
         }
     }
 }

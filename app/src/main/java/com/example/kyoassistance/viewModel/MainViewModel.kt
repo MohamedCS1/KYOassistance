@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kyoassistance.database.Entity.ContentEntity
+import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.pojo.GptText
 import com.example.kyoassistance.repository.DatabaseRepository
 import com.example.kyoassistance.repository.NetWorkRepository
@@ -23,13 +24,22 @@ class MainViewModel:ViewModel() {
     val contentList : LiveData<List<ContentEntity>>
         get() = _contentList
 
-    private var _deleteCheck = MutableLiveData<Boolean>(false)
-    val deleteCheck : LiveData<Boolean>
-        get() = _deleteCheck
+    private var _deleteMessageCheck = MutableLiveData<Boolean>(false)
+    val deleteMessageCheck : LiveData<Boolean>
+        get() = _deleteMessageCheck
 
-    private var _gptInsertCheck = MutableLiveData<Boolean>(false)
-    val gptInsertCheck : LiveData<Boolean>
-        get() = _gptInsertCheck
+    private var _gptInsertMessageCheck = MutableLiveData<Boolean>(false)
+
+    val gptInsertMessageCheck : LiveData<Boolean>
+        get() = _gptInsertMessageCheck
+
+    private val _notesList = MutableLiveData<List<NoteEntity>>()
+    val noteList:LiveData<List<NoteEntity>> get() = _notesList
+
+    private var _deleteNoteCheck = MutableLiveData<Boolean>(false)
+    val deleteNoteCheck : LiveData<Boolean>
+        get() = _deleteNoteCheck
+
 
     fun postResponse(query : String) = viewModelScope.launch {
         val jsonObject: JsonObject = JsonObject().apply{
@@ -53,19 +63,35 @@ class MainViewModel:ViewModel() {
 
     fun getContentData() = viewModelScope.launch(Dispatchers.IO) {
         _contentList.postValue(databaseRepository.getContentData())
-        _deleteCheck.postValue(false)
-        _gptInsertCheck.postValue(false)
+        _deleteMessageCheck.postValue(false)
+        _gptInsertMessageCheck.postValue(false)
     }
 
     fun insertContent(content : String, gptOrUser : Int) = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.insertContent(content, gptOrUser)
         if (gptOrUser == 1) {
-            _gptInsertCheck.postValue(true)
+            _gptInsertMessageCheck.postValue(true)
         }
     }
 
     fun deleteSelectedContent(id : Int) = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.deleteSelectedContent(id)
-        _deleteCheck.postValue(true)
+        _deleteMessageCheck.postValue(true)
+    }
+
+
+    fun getNotesData() = viewModelScope.launch(Dispatchers.IO) {
+        _notesList.postValue(databaseRepository.getNotesData())
+        _deleteMessageCheck.postValue(false)
+        _gptInsertMessageCheck.postValue(false)
+    }
+
+    fun insertNote(noteEntity: NoteEntity) = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.insertNote(noteEntity)
+    }
+
+    fun deleteSelectedNote(id : Int) = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.deleteSelectedNote(id)
+        _deleteNoteCheck.postValue(true)
     }
 }
