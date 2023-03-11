@@ -22,7 +22,10 @@ import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
 import com.example.kyoassistance.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -52,6 +55,13 @@ class MainActivity : AppCompatActivity() {
             for (entity in it) {
                 contentDataList.add(entity)
             }
+            if (binding.buttonSwitchSF.isChecked)
+            {
+                if(contentDataList.last().gptOrUser == 1)
+                {
+                    textToSpeech.speak(contentDataList.last().content.toString(),TextToSpeech.QUEUE_FLUSH ,null)
+                }
+            }
             setContentListRV(branch)
         })
 
@@ -73,6 +83,10 @@ class MainActivity : AppCompatActivity() {
         binding.buttonSendmessage.setOnClickListener {
             binding.loading.visibility = View.VISIBLE
 
+            if (binding.edittextSendMessage.text.toString().isBlank())
+            {
+                return@setOnClickListener
+            }
             viewModel.postResponse(binding.edittextSendMessage.text.toString())
             viewModel.insertContent(binding.edittextSendMessage.text.toString(), 2)
             binding.edittextSendMessage.setText("")
@@ -107,6 +121,15 @@ class MainActivity : AppCompatActivity() {
         binding.imageViewBackButton.setOnClickListener {
             onBackPressed()
         }
+
+        textToSpeech = TextToSpeech(
+            applicationContext
+        ) { i ->
+            if (i != TextToSpeech.ERROR) {
+                textToSpeech.language = Locale.UK
+            }
+        }
+
 
     }
 
@@ -176,7 +199,6 @@ class MainActivity : AppCompatActivity() {
 
                     try {
                         startActivity(Intent.createChooser(emailIntent, "Send mail..."))
-                        finish()
                     } catch (ex: ActivityNotFoundException) {
                         Toast.makeText(
                             this@MainActivity,

@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface Apis {
     @Headers(
         "Content-Type:application/json",
-        "Authorization:Bearer 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")
+        "Authorization:Bearer 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")
     @POST("v1/completions")
     suspend fun postRequest(
         @Body json : JsonObject

@@ -37,7 +37,7 @@
             android:src="@drawable/ic_delete"/>
 
         <ImageView
-            android:id="@+id/imageViewButtonDeleteCopy"
+            android:id="@+id/imageViewButtonCopy"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:padding="@dimen/_2sdp"

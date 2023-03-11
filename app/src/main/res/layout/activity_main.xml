@@ -55,6 +55,20 @@
             app:lottie_rawRes="@raw/loading_animation" />
 
 
+        <Switch
+            android:id="@+id/buttonSwitchSF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S-F"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textColor="@color/white"
+            android:buttonTint="@color/mainGreenColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewRoomName"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,6 +121,7 @@
                 android:hint="Type something"
                 android:maxHeight="@dimen/_100sdp"
                 android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_8sdp"
                 android:textColor="@color/white"
