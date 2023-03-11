@@ -38,11 +38,11 @@ class LogInActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-//        if (auth.currentUser != null)
-//        {
-//            finish()
-//            startActivity(Intent(this , NavigationActivity::class.java))
-//        }
+        if (auth.currentUser != null)
+        {
+            finish()
+            startActivity(Intent(this , NavigationActivity::class.java))
+        }
         super.onStart()
     }
     fun logInWithEmailAndPassword()

@@ -1,8 +1,10 @@
 package com.example.kyoassistance.ui.notes
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,8 +47,26 @@ class NotesActivity : AppCompatActivity() {
 
         notesAdapter.delChatLayoutClick = object :NotesAdapter.DelChatLayoutClick{
             override fun onClick(view: View, position: Int) {
-                viewModel.deleteSelectedNote(contentNotesList[position].id)
+                val builder = AlertDialog.Builder(this@NotesActivity)
+                builder.setTitle("Delete")
+                    .setMessage("Do you really want to delete this message ?")
+                    .setPositiveButton("Yes",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            viewModel.deleteSelectedNote(contentNotesList[position].id)
+                            viewModel.getNotesData()
+                            sendDataToRecyclerView()
+
+                        })
+                    .setNegativeButton("No",
+                        DialogInterface.OnClickListener { dialog, id ->
+                        })
+                builder.show()
+
             }
+        }
+
+        binding.imageViewBackButton.setOnClickListener {
+            onBackPressed()
         }
 
     }

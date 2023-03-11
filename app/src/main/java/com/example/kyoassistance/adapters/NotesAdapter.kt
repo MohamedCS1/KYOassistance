@@ -17,7 +17,7 @@ class NotesAdapter(val context : Context, private val dataSet : List<NoteEntity>
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.textViewNoteContent.setText(dataSet[position].content)
+        holder.textViewNoteContent.text = dataSet[position].content
         holder.imageViewButtonDelete.setOnClickListener {
             delChatLayoutClick?.onClick(it ,position)
         }
@@ -35,6 +35,5 @@ class NotesAdapter(val context : Context, private val dataSet : List<NoteEntity>
     inner class NoteViewHolder(itemView:View):ViewHolder(itemView){
         val textViewNoteContent = itemView.findViewById<TextView>(R.id.textViewNoteContent)
         val imageViewButtonDelete = itemView.findViewById<ImageView>(R.id.imageViewButtonDelete)
-
     }
 }

@@ -43,15 +43,14 @@ class MainViewModel:ViewModel() {
 
     fun postResponse(query : String) = viewModelScope.launch {
         val jsonObject: JsonObject = JsonObject().apply{
+
             addProperty("model", "text-davinci-003")
             addProperty("prompt", query)
             addProperty("temperature", 0)
-            addProperty("max_tokens", 500)
-            addProperty("top_p", 1)
-            addProperty("frequency_penalty", 0.0)
-            addProperty("presence_penalty", 0.0)
+            addProperty("max_tokens", 4000)
         }
         val response = netWorkRepository.postResponse(jsonObject)
+
         Timber.tag("response").e("${response.choices.get(0)}")
 
         val gson = Gson()

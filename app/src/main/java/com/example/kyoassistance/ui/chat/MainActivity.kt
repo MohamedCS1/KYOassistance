@@ -1,7 +1,7 @@
 package com.example.kyoassistance.ui.chat
 
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
@@ -22,10 +22,7 @@ import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
 import com.example.kyoassistance.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*
 
@@ -139,6 +136,16 @@ class MainActivity : AppCompatActivity() {
                 val buttonSend = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSend)
                 val buttonSaveAsNote = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonSaveAsNote)
                 val buttonDelete = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonDelete)
+                val buttonCopy = bottomSheetDialog.findViewById<LinearLayout>(R.id.buttonCopy)
+
+                buttonCopy?.setOnClickListener {
+                    val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("label", contentDataList[position].content.trim())
+                    clipboard.setPrimaryClip(clip)
+                    bottomSheetDialog.hide()
+
+                    Toast.makeText(this@MainActivity ,"Copied" ,Toast.LENGTH_SHORT).show()
+                }
 
                 buttonDelete?.setOnClickListener {
                     val builder = AlertDialog.Builder(this@MainActivity)
@@ -156,10 +163,32 @@ class MainActivity : AppCompatActivity() {
                     builder.show()
                 }
 
+                buttonSend?.setOnClickListener {
+
+
+                    val emailIntent = Intent(Intent.ACTION_SEND)
+                    emailIntent.data = Uri.parse("mailto:")
+                    emailIntent.type = "text/plain"
+
+
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, contentDataList[position].content)
+
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+                        finish()
+                    } catch (ex: ActivityNotFoundException) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "There is no email client installed.", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
                 Timber.tag("currentItem").e("${contentDataList[position].id}")
 
                 buttonSaveAsNote?.setOnClickListener {
-                    viewModel.insertNote(NoteEntity(0 ,contentDataList[position].content))
+                    viewModel.insertNote(NoteEntity(0 ,contentDataList[position].content.trim()))
                     bottomSheetDialog.hide()
                     Toast.makeText(this@MainActivity ,"Saved" ,Toast.LENGTH_SHORT).show()
                 }
