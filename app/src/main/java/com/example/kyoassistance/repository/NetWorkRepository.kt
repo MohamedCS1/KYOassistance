@@ -15,5 +15,5 @@ import timber.log.Timber
 class NetWorkRepository {
     private val chatGPTRetrofitInstance = RetrofitInstance.getInstance().create(Apis::class.java)
 
-    suspend fun postResponse(jsonData : JsonObject) = chatGPTRetrofitInstance.postRequest(jsonData)
+     fun postResponse(jsonData : JsonObject):Call<GptResponse> = chatGPTRetrofitInstance.postRequest(jsonData)
 }

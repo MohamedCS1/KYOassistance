@@ -1,21 +1,29 @@
 package com.example.kyoassistance.viewModel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kyoassistance.database.Entity.ContentEntity
 import com.example.kyoassistance.database.Entity.NoteEntity
+import com.example.kyoassistance.pojo.GptResponse
 import com.example.kyoassistance.pojo.GptText
 import com.example.kyoassistance.repository.DatabaseRepository
 import com.example.kyoassistance.repository.NetWorkRepository
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
 
-class MainViewModel:ViewModel() {
+class MainViewModel(val context:Context):ViewModel() {
 
     private val databaseRepository = DatabaseRepository()
     private val netWorkRepository = NetWorkRepository()
@@ -51,13 +59,22 @@ class MainViewModel:ViewModel() {
         }
         val response = netWorkRepository.postResponse(jsonObject)
 
-        Timber.tag("response").e("${response.choices.get(0)}")
+        response.enqueue(object : Callback<GptResponse>{
+            override fun onResponse(call: Call<GptResponse>, response: Response<GptResponse>) {
 
-        val gson = Gson()
-        val tempjson = gson.toJson(response.choices.get(0))
-        val tempgson = gson.fromJson(tempjson, GptText::class.java)
-        Timber.tag("responseJson").e("${tempgson.text}")
-        insertContent(tempgson.text.toString(), 1)
+                Timber.tag("response").e("${response.body()?.choices?.get(0)}")
+
+                val gson = Gson()
+                val tempjson = gson.toJson(response.body()?.choices?.get(0))
+                val tempgson = gson.fromJson(tempjson, GptText::class.java)
+                Timber.tag("responseJson").e("${tempgson.text}")
+                insertContent(tempgson.text.toString(), 1)
+            }
+
+            override fun onFailure(call: Call<GptResponse>, t: Throwable) {
+                Toast.makeText(context ,"Soooooooooow" ,Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun getContentData() = viewModelScope.launch(Dispatchers.IO) {

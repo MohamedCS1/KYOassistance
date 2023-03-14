@@ -21,7 +21,7 @@ class MailGenerationActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMailGenerationBinding
     private val viewModel : MainViewModel by lazy {
-        MainViewModel()
+        MainViewModel(this)
     }
     var isFirstObservation = true
     var isSecondObservation = true

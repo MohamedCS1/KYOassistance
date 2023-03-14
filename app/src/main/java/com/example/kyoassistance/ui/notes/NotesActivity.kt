@@ -21,7 +21,7 @@ class NotesActivity : AppCompatActivity() {
     lateinit var notesAdapter: NotesAdapter
     lateinit var binding: ActivityNotesBinding
     private val viewModel : MainViewModel by lazy {
-        MainViewModel()
+        MainViewModel(this)
     }
     private var contentNotesList = ArrayList<NoteEntity>()
 

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var branch : Int = 1
     private lateinit var binding : ActivityMainBinding
     private val viewModel : MainViewModel by lazy {
-        MainViewModel()
+        MainViewModel(this)
     }
     lateinit var textToSpeech:TextToSpeech
     private var contentDataList = ArrayList<ContentEntity>()

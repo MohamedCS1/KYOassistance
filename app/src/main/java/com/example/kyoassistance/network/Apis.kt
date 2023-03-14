@@ -10,9 +10,9 @@ import retrofit2.http.POST
 interface Apis {
     @Headers(
         "Content-Type:application/json",
-        "Authorization:Bearer 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")
+        "Authorization:Bearer ")
     @POST("v1/completions")
-    suspend fun postRequest(
+     fun postRequest(
         @Body json : JsonObject
-    ) :GptResponse
+    ) :Call<GptResponse>
 }

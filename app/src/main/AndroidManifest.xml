@@ -27,9 +27,7 @@
         <activity
             android:name=".ui.emailResponse.ChoseMailActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.emailResponse.EmailResponsesActivity"
-            android:exported="true"></activity>
+
         <activity
             android:name=".ui.notes.NotesActivity"
             android:exported="false" />
