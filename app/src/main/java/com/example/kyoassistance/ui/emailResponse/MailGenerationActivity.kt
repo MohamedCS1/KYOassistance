@@ -29,6 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.Executors
 
 class MailGenerationActivity : AppCompatActivity() {
 
@@ -190,8 +191,10 @@ class MailGenerationActivity : AppCompatActivity() {
                 {
                     if (binding.editTextMailGenerated.text.isNotBlank())
                     {
-                        DatabaseRepository().insertNote(NoteEntity(0 ,binding.editTextMailGenerated.text.toString()))
-                        Toast.makeText(this ,"Saved" ,Toast.LENGTH_SHORT).show()
+                        Executors.newSingleThreadExecutor().execute{
+                            DatabaseRepository().insertNote(NoteEntity(0 ,binding.editTextMailGenerated.text.toString()))
+                        }
+                        Toast.makeText(applicationContext ,"Saved" ,Toast.LENGTH_SHORT).show()
                     }
                     else
                     {

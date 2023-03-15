@@ -7,6 +7,7 @@ import com.example.kyoassistance.R
 import com.example.kyoassistance.databinding.ActivityNavigationBinding
 import com.example.kyoassistance.ui.chat.MainActivity
 import com.example.kyoassistance.ui.emailResponse.ChoseMailActivity
+import com.example.kyoassistance.ui.generation.GenerationActivity
 import com.example.kyoassistance.ui.notes.NotesActivity
 
 class NavigationActivity : AppCompatActivity() {
@@ -27,6 +28,10 @@ class NavigationActivity : AppCompatActivity() {
 
         binding.buttonToEmailResponses.setOnClickListener {
             startActivity(Intent(this ,ChoseMailActivity::class.java))
+        }
+
+        binding.buttonToGeneration.setOnClickListener {
+            startActivity(Intent(this ,GenerationActivity::class.java))
         }
     }
 }

@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.generation.GenerationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.emailResponse.MailMessagesActivity"
             android:exported="false" />
         <activity
@@ -27,7 +30,6 @@
         <activity
             android:name=".ui.emailResponse.ChoseMailActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.notes.NotesActivity"
             android:exported="false" />

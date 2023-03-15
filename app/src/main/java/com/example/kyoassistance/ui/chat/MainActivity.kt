@@ -25,14 +25,12 @@ import com.example.kyoassistance.network.RetrofitInstance
 import com.example.kyoassistance.pojo.GptResponse
 import com.example.kyoassistance.pojo.GptText
 import com.example.kyoassistance.repository.DatabaseRepository
+import com.example.kyoassistance.ui.emailResponse.ChoseMailActivity
 import com.example.kyoassistance.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -132,6 +130,7 @@ class MainActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+
         textToSpeech = TextToSpeech(
             applicationContext
         ) { i ->
@@ -198,11 +197,9 @@ class MainActivity : AppCompatActivity() {
 
                 buttonSend?.setOnClickListener {
 
-
                     val emailIntent = Intent(Intent.ACTION_SEND)
                     emailIntent.data = Uri.parse("mailto:")
                     emailIntent.type = "text/plain"
-
 
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
                     emailIntent.putExtra(Intent.EXTRA_TEXT, contentDataList[position].content)
@@ -226,6 +223,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -234,12 +232,16 @@ class MainActivity : AppCompatActivity() {
                 val result = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS
                 )
-                binding.edittextSendMessage.setText("")
-                binding.edittextSendMessage.setText(
-                    Objects.requireNonNull(result)?.get(0) ?:""
-                )
+                if (Objects.requireNonNull(result)?.get(0) ?:"" != "send to email" && Objects.requireNonNull(result)?.get(0) ?:"" != "send it" && Objects.requireNonNull(result)?.get(0) ?:"" != "send" && Objects.requireNonNull(result)?.get(0) ?:"" != "save it into my notes" && Objects.requireNonNull(result)?.get(0) ?:"" != "save" && Objects.requireNonNull(result)?.get(0) ?:"" != "save it" && Objects.requireNonNull(result)?.get(0) ?:"" != "save it into my notes" && Objects.requireNonNull(result)?.get(0) ?:"" != "save" && Objects.requireNonNull(result)?.get(0) ?:"" != "save it")
+                {
+                    binding.edittextSendMessage.setText("")
+                    binding.edittextSendMessage.setText(
+                        Objects.requireNonNull(result)?.get(0) ?:""
+                    )
+                }
 
-                 if (Objects.requireNonNull(result)?.get(0) ?:"" == "send to mail" || Objects.requireNonNull(result)?.get(0) ?:"" == "send it" || Objects.requireNonNull(result)?.get(0) ?:"" == "send")
+
+                 if (Objects.requireNonNull(result)?.get(0) ?:"" == "send to email" || Objects.requireNonNull(result)?.get(0) ?:"" == "send it" || Objects.requireNonNull(result)?.get(0) ?:"" == "send")
                 {
                     val emailIntent = Intent(Intent.ACTION_SEND)
                     emailIntent.data = Uri.parse("mailto:")
