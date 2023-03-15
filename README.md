@@ -1,6 +1,20 @@
 # KYOassistance
 the api key in the source code don't work get your api key https://platform.openai.com/docs/api-reference
 Put it in the value of authorization in network/Apis.kt
+# Features
+* Full chat-gpt integration
+* Convert speech to text
+* Convert text to speech
+* Save any message as note
+* Send the note
+* Copy the note
+* Delete the note
+* Email generation
+* Save the email generated as note
+* Send the email generated 
+* Copy the email generated 
+* Use voice command to do actions like "Send it ,Generate ,save it into my notes ...and more"
+
 # Technologies
 * MVVM architecture pattern
 * Retrofit
@@ -11,6 +25,7 @@ Put it in the value of authorization in network/Apis.kt
 * viewModelScope
 * Firebase
 * Lottie
+* new material design
 <pre>
 ├── app 
      |
