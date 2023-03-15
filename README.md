@@ -2,6 +2,8 @@
 the api key in the source code don't work get your api key https://platform.openai.com/docs/api-reference
 Put it in the value of authorization in network/Apis.kt
 # Features
+ <h3>Fully implemented</h3>
+
 * Full chat-gpt integration
 * Convert speech to text
 * Convert text to speech
