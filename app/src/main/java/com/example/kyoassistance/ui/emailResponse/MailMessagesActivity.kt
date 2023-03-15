@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.kyoassistance.R
 import com.example.kyoassistance.databinding.ActivityMailMessagesBinding
+import com.example.kyoassistance.pojo.GmailMessage
 
 class MailMessagesActivity : AppCompatActivity() {
     lateinit var binding:ActivityMailMessagesBinding
@@ -13,6 +14,8 @@ class MailMessagesActivity : AppCompatActivity() {
         binding = ActivityMailMessagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val arrayMessages = arrayListOf<GmailMessage>()
+        arrayMessages.add(GmailMessage())
         binding.stephanieEmail.setOnClickListener {
             val intent = Intent(this ,MailGenerationActivity::class.java)
             intent.putExtra("mailContent" ,"I hope this email finds you well. It's been a while since we last spoke, and I just wanted to check in and see how you're doing.\n" +

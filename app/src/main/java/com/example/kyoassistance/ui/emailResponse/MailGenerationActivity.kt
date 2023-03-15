@@ -11,22 +11,31 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import com.example.kyoassistance.R
+import com.example.kyoassistance.Utils.LoadingDialog
 import com.example.kyoassistance.database.Entity.ContentEntity
 import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.databinding.ActivityMailGenerationBinding
+import com.example.kyoassistance.network.Apis
+import com.example.kyoassistance.network.RetrofitInstance
+import com.example.kyoassistance.pojo.GptResponse
+import com.example.kyoassistance.pojo.GptText
+import com.example.kyoassistance.repository.DatabaseRepository
 import com.example.kyoassistance.viewModel.MainViewModel
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.ArrayList
 
 class MailGenerationActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMailGenerationBinding
-    private val viewModel : MainViewModel by lazy {
-        MainViewModel(this)
-    }
-    var isFirstObservation = true
-    var isSecondObservation = true
-    private var contentDataList = ArrayList<ContentEntity>()
 
+    private val loadingDialog: LoadingDialog by lazy {
+        LoadingDialog(this)
+    }
+
+    lateinit var binding: ActivityMailGenerationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMailGenerationBinding.inflate(layoutInflater)
@@ -36,40 +45,35 @@ class MailGenerationActivity : AppCompatActivity() {
 
         binding.editTextMailGenerated.setText("")
 
-        viewModel.getContentData()
-
-        viewModel.contentList.observe(this, Observer {
-            if (isFirstObservation)
-            {
-                Toast.makeText(this ,"is first",Toast.LENGTH_SHORT).show()
-                isFirstObservation = false
-                return@Observer
-            }
-            if (isSecondObservation)
-            {
-                isSecondObservation = false
-                return@Observer
-            }
-
-            contentDataList.clear()
-            for (entity in it) {
-                contentDataList.add(entity)
-            }
-            binding.editTextMailGenerated.setText(contentDataList.last().content.trim())
-
-            Toast.makeText(this ,contentDataList.last().content,Toast.LENGTH_SHORT).show()
-
-        })
-
-
         val emailContent = intent.extras?.getString("mailContent" ,"")
 
         binding.editTextMessageContent.setText(emailContent)
 
+
+
+
         binding.buttonGenerate.setOnClickListener {
-            viewModel.postResponse("response to this mail $emailContent")
-            viewModel.insertContent("response to this mail $emailContent", 2)
-            viewModel.getContentData()
+            loadingDialog.show()
+            val jsonObject: JsonObject = JsonObject().apply{
+                addProperty("model", "text-davinci-003")
+                addProperty("prompt", "response for this email$emailContent")
+                addProperty("temperature", 0)
+                addProperty("max_tokens", 4000)
+            }
+            RetrofitInstance.getInstance().create(Apis::class.java).postRequest(jsonObject).enqueue(object :Callback<GptResponse>{
+                override fun onResponse(call: Call<GptResponse>, response: Response<GptResponse>) {
+                    val gson = Gson()
+                    val tempjson = gson.toJson(response.body()?.choices?.get(0))
+                    val tempgson = gson.fromJson(tempjson, GptText::class.java)
+                    binding.editTextMailGenerated.setText(tempgson.text)
+                    loadingDialog.hide()
+                }
+
+                override fun onFailure(call: Call<GptResponse>, t: Throwable) {
+                    Toast.makeText(this@MailGenerationActivity ,"Something went wrong please try again" ,Toast.LENGTH_SHORT).show()
+                    loadingDialog.hide()
+                }
+            })
         }
 
         binding.imageViewBackButton.setOnClickListener {
@@ -77,7 +81,7 @@ class MailGenerationActivity : AppCompatActivity() {
         }
 
         binding.imageViewButtonSave.setOnClickListener {
-            viewModel.insertNote(NoteEntity(0 ,binding.editTextMailGenerated.text.toString()))
+            DatabaseRepository().insertNote(NoteEntity(0 ,binding.editTextMailGenerated.text.toString()))
             Toast.makeText(this ,"Saved" ,Toast.LENGTH_SHORT).show()
         }
 

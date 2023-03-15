@@ -67,12 +67,11 @@ class MainViewModel(val context:Context):ViewModel() {
                 val gson = Gson()
                 val tempjson = gson.toJson(response.body()?.choices?.get(0))
                 val tempgson = gson.fromJson(tempjson, GptText::class.java)
-                Timber.tag("responseJson").e("${tempgson.text}")
                 insertContent(tempgson.text.toString(), 1)
             }
 
             override fun onFailure(call: Call<GptResponse>, t: Throwable) {
-                Toast.makeText(context ,"Soooooooooow" ,Toast.LENGTH_SHORT).show()
+                Toast.makeText(context ,"Something went wrong please try again" ,Toast.LENGTH_SHORT).show()
             }
         })
     }

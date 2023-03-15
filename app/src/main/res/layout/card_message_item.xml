@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:background="@drawable/background_radius">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/senderPhotoProfile"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_margin="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/chat_gpt_logo" />
+
+    <TextView
+        android:id="@+id/sender_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@tools:sample/full_names"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/senderPhotoProfile"
+        app:layout_constraintStart_toEndOf="@+id/senderPhotoProfile"
+        android:layout_marginStart="@dimen/_8sdp" />
+
+    <TextView
+        android:id="@+id/sender_last_message"
+        android:layout_width="@dimen/_210sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="#CBFFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/senderPhotoProfile"
+        app:layout_constraintStart_toEndOf="@+id/senderPhotoProfile"
+        app:layout_constraintTop_toBottomOf="@+id/sender_name"
+        tools:text="@tools:sample/lorem[4:10]" />
+
+    <TextView
+        android:id="@+id/message_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@tools:sample/date/hhmm"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/senderPhotoProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_15sdp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

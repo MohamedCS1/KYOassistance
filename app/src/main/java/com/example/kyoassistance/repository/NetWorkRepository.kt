@@ -16,4 +16,5 @@ class NetWorkRepository {
     private val chatGPTRetrofitInstance = RetrofitInstance.getInstance().create(Apis::class.java)
 
      fun postResponse(jsonData : JsonObject):Call<GptResponse> = chatGPTRetrofitInstance.postRequest(jsonData)
+
 }
