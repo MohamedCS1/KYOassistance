@@ -4,6 +4,7 @@ Put it in the value of authorization in network/Apis.kt
 # Features
  <h3>Fully implemented</h3>
 
+* login with email and password
 * Full chat-gpt integration
 * Convert speech to text
 * Convert text to speech
@@ -20,7 +21,7 @@ Put it in the value of authorization in network/Apis.kt
 # Note :
 * Long-clik in the message for send it or copy it or save it or delete it
 * Long-clik in microphone button for use it
-
+* Account for testing (email -> user@gmail.com / password -> 12345678)
 # Technologies
 * MVVM architecture pattern
 * Retrofit
