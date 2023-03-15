@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_radius"
-    android:backgroundTint="@color/mainGreenColor"
+    android:backgroundTint="#FF206153"
     android:layout_margin="@dimen/_5sdp"
     android:orientation="vertical">
 

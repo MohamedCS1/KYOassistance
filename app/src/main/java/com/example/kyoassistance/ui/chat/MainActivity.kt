@@ -20,12 +20,22 @@ import com.example.kyoassistance.adapters.ContentAdapter
 import com.example.kyoassistance.database.Entity.ContentEntity
 import com.example.kyoassistance.database.Entity.NoteEntity
 import com.example.kyoassistance.databinding.ActivityMainBinding
+import com.example.kyoassistance.network.Apis
+import com.example.kyoassistance.network.RetrofitInstance
+import com.example.kyoassistance.pojo.GptResponse
+import com.example.kyoassistance.pojo.GptText
+import com.example.kyoassistance.repository.DatabaseRepository
 import com.example.kyoassistance.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
 import java.util.*
 
@@ -228,6 +238,37 @@ class MainActivity : AppCompatActivity() {
                 binding.edittextSendMessage.setText(
                     Objects.requireNonNull(result)?.get(0) ?:""
                 )
+
+                 if (Objects.requireNonNull(result)?.get(0) ?:"" == "send to mail" || Objects.requireNonNull(result)?.get(0) ?:"" == "send it" || Objects.requireNonNull(result)?.get(0) ?:"" == "send")
+                {
+                    val emailIntent = Intent(Intent.ACTION_SEND)
+                    emailIntent.data = Uri.parse("mailto:")
+                    emailIntent.type = "text/plain"
+
+
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, contentDataList.last().content.toString())
+
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+                    } catch (ex: ActivityNotFoundException) {
+                        Toast.makeText(
+                            this,
+                            "There is no email client installed.", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else if(Objects.requireNonNull(result)?.get(0) ?:"" == "save it into my notes" || Objects.requireNonNull(result)?.get(0) ?:"" == "save" || Objects.requireNonNull(result)?.get(0) ?:"" == "save it")
+                {
+                    if (contentDataList.isNotEmpty())
+                    {
+                        viewModel.insertNote(NoteEntity(0 ,contentDataList.last().content.trim()))
+                        Toast.makeText(applicationContext ,"Saved" ,Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        Toast.makeText(this ,"Nothing to save" ,Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
