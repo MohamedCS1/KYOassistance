@@ -15,6 +15,10 @@ Put it in the value of authorization in network/Apis.kt
 * Copy the email generated 
 * Use voice command to do actions like "Send it ,Generate ,save it into my notes ...and more"
 
+# Note :
+* Long-clik in the message for send it or copy it or save it or delete it
+* Long-clik in microphone button for use it
+
 # Technologies
 * MVVM architecture pattern
 * Retrofit
@@ -44,3 +48,4 @@ Kyoassistance
      ├── viewModel
      └── App.kt
 <pre/>
+
