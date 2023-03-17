@@ -18,7 +18,7 @@ Put it in the value of authorization in network/Apis.kt
 * Copy the email generated 
 * Use voice command to do actions like "Send it ,Generate ,save it into my notes ...and more"
 
-# Note :
+# Attention :
 * Long-clik in the message for send it or copy it or save it or delete it
 * Long-clik in microphone button for use it
 * Account for testing (email -> user@gmail.com / password -> 12345678)
