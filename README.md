@@ -1,5 +1,5 @@
 # KYOassistance
-The api key in the source code is invalid get your api key https://platform.openai.com/docs/api-reference
+The api key in the source code not authorized get your api key https://platform.openai.com/docs/api-reference
 Put it in the value of authorization in network/Apis.kt
 # Features
  <h3>Fully implemented</h3>
