@@ -1,5 +1,5 @@
 # KYOassistance
-the api key in the source code don't work get your api key https://platform.openai.com/docs/api-reference
+The api key in the source code is invalid get your api key https://platform.openai.com/docs/api-reference
 Put it in the value of authorization in network/Apis.kt
 # Features
  <h3>Fully implemented</h3>
@@ -32,7 +32,7 @@ Put it in the value of authorization in network/Apis.kt
 * viewModelScope
 * Firebase
 * Lottie
-* new material design
+* New material design
 <pre>
 ├── app 
      |
